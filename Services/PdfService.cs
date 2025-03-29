@@ -15,8 +15,23 @@ public class PdfService : IPdfService
 
         document.Open();
         AddVisibleContent(document);
-        AddInvisibleKeywords(writer, keywords);
+        AddInvisibleKeywords(writer.DirectContent, keywords);
         document.Close();
+    }
+
+    public void ModifyPdf(string inputPath, string outputPath, string keywords)
+    {
+        using var reader = new PdfReader(inputPath);
+        using var fs = new FileStream(outputPath, FileMode.Create);
+        using var stamper = new PdfStamper(reader, fs);
+
+        int pageCount = reader.NumberOfPages;
+
+        for (int page = 1; page <= pageCount; page++)
+        {
+            PdfContentByte cb = stamper.GetOverContent(page);
+            AddInvisibleKeywords(cb, keywords);
+        }
     }
 
     private void AddVisibleContent(Document document)
@@ -27,12 +42,11 @@ public class PdfService : IPdfService
         document.Add(Chunk.NEWLINE);
     }
 
-    private void AddInvisibleKeywords(PdfWriter writer, string keywords)
+    private void AddInvisibleKeywords(PdfContentByte cb, string keywords)
     {
-        PdfContentByte cb = writer.DirectContent;
         cb.BeginText();
         cb.SetFontAndSize(BaseFont.CreateFont(), 1f);
-        cb.SetColorFill(new BaseColor(254, 254, 254));  // Subtle nearly-white text
+        cb.SetColorFill(new BaseColor(254, 254, 254));
         cb.ShowTextAligned(Element.ALIGN_LEFT, keywords, 5, 5, 0);
         cb.EndText();
     }

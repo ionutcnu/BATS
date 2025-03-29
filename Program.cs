@@ -9,22 +9,46 @@ class Program
 {
     static void Main()
     {
-        // Setup config
         var config = new AppConfig();
 
-        // Instantiate services
         IFileService fileService = new FileService(config);
         IKeywordService keywordService = new KeywordService(config);
         IPdfService pdfService = new PdfService();
 
         try
         {
-            var filePath = fileService.GenerateFilePath();
-            var keywords = keywordService.GetFormattedKeywords();
+            int choice = ConsoleHelper.GetUserChoice();
+            string keywords = keywordService.GetFormattedKeywords();
 
-            pdfService.CreatePdf(filePath, keywords);
+            switch (choice)
+            {
+                case 1:
+                    var newFilePath = fileService.GenerateFilePath();
+                    pdfService.CreatePdf(newFilePath, keywords);
+                    ConsoleHelper.ShowMessage($"✅ PDF created:\n{newFilePath}");
+                    break;
 
-            ConsoleHelper.ShowMessage($"PDF created successfully:\n{filePath}");
+                case 2:
+                    var inputPath = ConsoleHelper.GetExistingPdfPath();
+
+                    if (!File.Exists(inputPath))
+                    {
+                        ConsoleHelper.ShowError("The specified file doesn't exist.");
+                        return;
+                    }
+
+                    string outputFilePath = Path.Combine(
+                        config.PdfDirectory, 
+                        $"Modified_{Path.GetFileName(inputPath)}");
+
+                    pdfService.ModifyPdf(inputPath, outputFilePath, keywords);
+                    ConsoleHelper.ShowMessage($"✅ PDF modified:\n{outputFilePath}");
+                    break;
+
+                default:
+                    ConsoleHelper.ShowError("Invalid choice. Exiting...");
+                    break;
+            }
         }
         catch (Exception ex)
         {
