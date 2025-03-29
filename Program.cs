@@ -1,34 +1,34 @@
-﻿namespace BATS;
-using iTextSharp.text;
-using iTextSharp.text.pdf;
-using System.IO;
+﻿using BATS.Models;
+using BATS.Services;
+using BATS.Services.Interfaces;
+using BATS.Utilities;
+
+namespace BATS;
 
 class Program
 {
-    public static void Main()
+    static void Main()
     {
-        PdfGenerator.CreatePdf("output.pdf");
-    }
-}
+        // Setup config
+        var config = new AppConfig();
 
-public class PdfGenerator
-{
-    public static void CreatePdf(string filePath)
-    {
-        using(FileStream fs = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None))
+        // Instantiate services
+        IFileService fileService = new FileService(config);
+        IKeywordService keywordService = new KeywordService(config);
+        IPdfService pdfService = new PdfService();
+
+        try
         {
-            Document document = new Document();
-            PdfWriter writer = PdfWriter.GetInstance(document, fs);
-            document.Open();
-            document.Add(new Paragraph("John Doe\nSoftware Engineer"));
-            PdfContentByte cb = writer.DirectContent;
-            BaseFont bf = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-            cb.BeginText();
-            cb.SetFontAndSize(bf, 12);
-            cb.SetColorFill(BaseColor.WHITE);
-            cb.ShowTextAligned(Element.ALIGN_LEFT, "Keyword1 Keyword2 Keyword3", 10, 10, 0);
-            cb.EndText();
-            document.Close();
+            var filePath = fileService.GenerateFilePath();
+            var keywords = keywordService.GetFormattedKeywords();
+
+            pdfService.CreatePdf(filePath, keywords);
+
+            ConsoleHelper.ShowMessage($"PDF created successfully:\n{filePath}");
+        }
+        catch (Exception ex)
+        {
+            ConsoleHelper.ShowError(ex.Message);
         }
     }
 }
