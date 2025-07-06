@@ -1,0 +1,22 @@
+bin/
+obj/
+/packages/
+riderModule.iml
+/_ReSharper.Caches/
+
+# Development configs with secrets
+appsettings.Development.json
+*.local.json
+.env
+.env.local
+.env.development
+.env.production
+
+# Personal files
+CV Cioncu Ionut.pdf
+PDFS/
+
+# IDE files
+.vs/
+.idea/
+*.user
