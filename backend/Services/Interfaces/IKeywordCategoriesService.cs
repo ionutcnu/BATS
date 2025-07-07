@@ -15,21 +15,21 @@ public interface IKeywordCategoriesService
 
 public class JobCategory
 {
-    public string Id { get; set; }
-    public string Name { get; set; }
-    public string Description { get; set; }
-    public string Icon { get; set; }
-    public List<string> Keywords { get; set; }
-    public List<string> Tags { get; set; }
+    public required string Id { get; set; }
+    public required string Name { get; set; }
+    public required string Description { get; set; }
+    public required string Icon { get; set; }
+    public required List<string> Keywords { get; set; }
+    public required List<string> Tags { get; set; }
     public int PopularityScore { get; set; }
-    public string Color { get; set; }
+    public required string Color { get; set; }
 }
 
 public class CategoryKeywords
 {
-    public string CategoryId { get; set; }
-    public string CategoryName { get; set; }
-    public List<string> Essential { get; set; }
-    public List<string> Preferred { get; set; }
-    public List<string> Bonus { get; set; }
+    public required string CategoryId { get; set; }
+    public required string CategoryName { get; set; }
+    public required List<string> Essential { get; set; }
+    public required List<string> Preferred { get; set; }
+    public required List<string> Bonus { get; set; }
 }

@@ -486,7 +486,7 @@ app.MapPost("/api/analyze-resume", async (HttpRequest request, IAIKeywordService
         var atsAnalysis = atsService.AnalyzeATSCompatibility(resumeText);
 
         // Get AI keyword suggestions based on resume content
-        AIKeywordExtractionResult aiSuggestions = null;
+        AIKeywordExtractionResult? aiSuggestions = null;
         if (!string.IsNullOrEmpty(jobDescription))
         {
             aiSuggestions = await aiKeywordService.ExtractKeywordsFromJobDescriptionAsync(jobDescription, resumeText);

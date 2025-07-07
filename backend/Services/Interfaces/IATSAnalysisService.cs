@@ -14,12 +14,12 @@ public interface IATSAnalysisService
 
 public class ATSAnalysisResult
 {
-    public ATSScore Score { get; set; }
-    public List<string> FoundKeywords { get; set; }
-    public List<string> MissingKeywords { get; set; }
-    public List<ATSSuggestion> Suggestions { get; set; }
-    public List<ATSIssue> Issues { get; set; }
-    public string AnalysisDate { get; set; }
+    public required ATSScore Score { get; set; }
+    public required List<string> FoundKeywords { get; set; }
+    public required List<string> MissingKeywords { get; set; }
+    public required List<ATSSuggestion> Suggestions { get; set; }
+    public required List<ATSIssue> Issues { get; set; }
+    public required string AnalysisDate { get; set; }
     public JobRoleAnalysis? JobRoleAnalysis { get; set; }
     public string? AnalysisType { get; set; }
     public string? SelectedRole { get; set; }
@@ -32,24 +32,24 @@ public class ATSScore
     public int KeywordMatch { get; set; }
     public int Formatting { get; set; }
     public int Readability { get; set; }
-    public string Grade { get; set; }
-    public string Description { get; set; }
+    public required string Grade { get; set; }
+    public required string Description { get; set; }
 }
 
 public class ATSSuggestion
 {
-    public string Type { get; set; }
-    public string Title { get; set; }
-    public string Description { get; set; }
-    public string Priority { get; set; }
-    public List<string> Keywords { get; set; }
+    public required string Type { get; set; }
+    public required string Title { get; set; }
+    public required string Description { get; set; }
+    public required string Priority { get; set; }
+    public required List<string> Keywords { get; set; }
 }
 
 public class ATSIssue
 {
-    public string Type { get; set; }
-    public string Title { get; set; }
-    public string Description { get; set; }
-    public string Severity { get; set; }
-    public string Location { get; set; }
+    public required string Type { get; set; }
+    public required string Title { get; set; }
+    public required string Description { get; set; }
+    public required string Severity { get; set; }
+    public required string Location { get; set; }
 }

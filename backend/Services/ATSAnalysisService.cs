@@ -16,7 +16,7 @@ public class ATSAnalysisService : IATSAnalysisService
         _config = config;
     }
 
-    public async Task<string> ExtractTextFromPdfAsync(Stream pdfStream)
+    public Task<string> ExtractTextFromPdfAsync(Stream pdfStream)
     {
         try
         {
@@ -29,11 +29,11 @@ public class ATSAnalysisService : IATSAnalysisService
                 text.AppendLine(pageText);
             }
 
-            return text.ToString();
+            return Task.FromResult(text.ToString());
         }
         catch (Exception ex)
         {
-            throw new InvalidOperationException($"Failed to extract text from PDF: {ex.Message}");
+            return Task.FromException<string>(new InvalidOperationException($"Failed to extract text from PDF: {ex.Message}"));
         }
     }
 
@@ -385,6 +385,7 @@ public class ATSAnalysisService : IATSAnalysisService
             issues.Add(new ATSIssue
             {
                 Type = "format",
+                Title = "Images Detected",
                 Description = "Images and graphics may not be readable by ATS systems",
                 Severity = "medium",
                 Location = "document"
@@ -397,6 +398,7 @@ public class ATSAnalysisService : IATSAnalysisService
             issues.Add(new ATSIssue
             {
                 Type = "encoding",
+                Title = "Special Characters",
                 Description = "Special characters may cause parsing issues",
                 Severity = "low",
                 Location = "text"
@@ -409,6 +411,7 @@ public class ATSAnalysisService : IATSAnalysisService
             issues.Add(new ATSIssue
             {
                 Type = "contact",
+                Title = "Missing Email",
                 Description = "No email address found",
                 Severity = "high",
                 Location = "header"

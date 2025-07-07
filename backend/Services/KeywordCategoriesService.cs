@@ -18,7 +18,7 @@ public class KeywordCategoriesService : IKeywordCategoriesService
 
     public JobCategory GetCategoryById(string categoryId)
     {
-        return _categories.FirstOrDefault(c => c.Id == categoryId);
+        return _categories.FirstOrDefault(c => c.Id == categoryId) ?? throw new ArgumentException($"Category with ID '{categoryId}' not found.");
     }
 
     public List<string> GetKeywordsByCategory(string categoryId)

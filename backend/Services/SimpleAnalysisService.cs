@@ -237,7 +237,8 @@ public class SimpleAnalysisService : ISimpleAnalysisService
                 Type = "formatting",
                 Title = "Special Characters Detected",
                 Description = "Your resume contains special characters that may not be ATS-friendly.",
-                Severity = "medium"
+                Severity = "medium",
+                Location = "document"
             });
         }
 
@@ -248,7 +249,8 @@ public class SimpleAnalysisService : ISimpleAnalysisService
                 Type = "content",
                 Title = "Resume Too Short",
                 Description = "Your resume appears to be quite short. Consider adding more details about your experience and skills.",
-                Severity = "medium"
+                Severity = "medium",
+                Location = "content"
             });
         }
 
@@ -260,7 +262,8 @@ public class SimpleAnalysisService : ISimpleAnalysisService
                 Type = "contact",
                 Title = "No Email Address Found",
                 Description = "Make sure your email address is clearly visible on your resume.",
-                Severity = "high"
+                Severity = "high",
+                Location = "header"
             });
         }
 

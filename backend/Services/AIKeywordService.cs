@@ -374,7 +374,7 @@ Return only the JSON response, no additional text.";
                 return new MistralResponse
                 {
                     Success = true,
-                    Content = mistralResponse.choices.First().message.content
+                    Content = mistralResponse.choices?.First()?.message?.content ?? string.Empty
                 };
             }
 
@@ -510,7 +510,7 @@ Return only the JSON response, no additional text.";
             Certifications = new List<string>(),
             JobLevel = "Mid",
             JobType = "Full-time",
-            RelevanceScore = 0.6f,
+            RelevanceScore = 60,
             KeywordFrequency = new Dictionary<string, int>()
         };
     }
